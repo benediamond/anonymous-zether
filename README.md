@@ -47,20 +47,40 @@ This command should compile and deploy all necessary contracts, as well as run s
 
 ## Detailed usage example
 
-Contracts ZSC and CashToken must be imported in node using the contract.at(contract.address) function where contract is a @truffle/contract object,  using the compiled contract.json files
+First initialize __dirname and web3 like so:
+```javascript
+> __dirname = [your path to anonymous-zether/packages/protocol];
+> Web3 = require('web3');
+> web3 = new Web3('http://localhost:9545'); 
+> const provider = new Web3.providers.WebsocketProvider("ws://localhost:9545");
+```
+
+Then, import client:
+```javascript
+> const Client = require(path.join(__dirname, '../anonymous.js/src/client.js'));
+```
+
+Contracts ZSC and CashToken must be imported in node using the `contract.at(contract.address)` function where contract is a @truffle/contract object,  using the compiled contract.json files
 
 An example is shown below:
 ```javascript
-> contract = require("@truffle/contract")
-> path = require('path')
-> deployedJSON  = require(path.join(__dirname, 'build/contracts/ZSC.json'))
-> const provider = new Web3.providers.WebsocketProvider("ws://localhost:9545")
-> var deployed = contract(deployedJSON)
-> deployed.setProvider(provider)
-> deployed.deployed()
-> deployed.at(deployed.address).then(function(result) {zsc = result})
+> contract = require("@truffle/contract");
+> path = require('path');
+> ZSCJSON  = require(path.join(__dirname, 'build/contracts/ZSC.json'));
+> const ZSC = contract(ZSCJSON);
+> ZSC.setProvider(provider);
+> ZSC.deployed();
+> ZSC.at(ZSC.address).then(function(result) {zsc = result});
 ```
 
+Following the example above, import CashToken:
+```javascript
+cashJSON  = require(path.join(__dirname, 'build/contracts/CashToken.json'));
+const CashToken = contract(cashJSON);
+CashToken.setProvider(provider);
+CashToken.deployed();
+CashToken.at(CashToken.address).then(function(result) {cash = result});
+```
 Let's assume that `Client` has been imported and that all contracts have been deployed, and that, in four separate `node` consoles, `web3` is initialized with an appropriate provider (make sure to use a WebSocket or IPC provider). In each window, type:
 ```javascript
 > var home
