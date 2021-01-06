@@ -90,7 +90,7 @@ to assign the address of an unlocked account to the variable `home`.
 
 In the first window, Alice's let's say, execute:
 ```javascript
-> const alice = new Client(web3,zsc.contract,home);
+> const alice = new Client(web3, zsc.contract, home);
 > alice.register()
 Promise { <pending> }
 Registration submitted (txHash = "0xe4295b5116eb1fe6c40a40352f4bf609041f93e763b5b27bd28c866f3f4ce2b2").
