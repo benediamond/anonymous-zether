@@ -21,7 +21,7 @@ Our theoretical contribution is a zero-knowledge proof protocol for the anonymou
 Anonymous Zether can be deployed and tested easily using [Truffle](https://www.trufflesuite.com/truffle) and [Ganache](https://www.trufflesuite.com/ganache).
 
 ### Required utilities
-* [Yarn](https://yarnpkg.com/en/docs/install#mac-stable), tested with version v1.22.4.
+* [Yarn](https://yarnpkg.com/en/docs/install#mac-stable), tested with version v1.22.5.
 * [Node.js](https://nodejs.org/en/download/), tested with version v12.18.3. (Unfortunately, currently, Node.js v14 has [certain incompatibilities](https://github.com/trufflesuite/ganache-cli/issues/732) with Truffle; you can use `nvm use 12` to temporarily downgrade.)
 
 Run the following commands:
