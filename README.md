@@ -47,6 +47,20 @@ This command should compile and deploy all necessary contracts, as well as run s
 
 ## Detailed usage example
 
+Contracts ZSC and CashToken must be imported in node using the contract.at(contract.address) function where contract is a @truffle/contract object,  using the compiled contract.json files
+
+An example is shown below:
+```javascript
+> contract = require("@truffle/contract")
+> path = require('path')
+> deployedJSON  = require(path.join(__dirname, 'build/contracts/ZSC.json'))
+> const provider = new Web3.providers.WebsocketProvider("ws://localhost:9545")
+> var deployed = contract(deployedJSON)
+> deployed.setProvider(provider)
+> deployed.deployed()
+> deployed.at(deployed.address).then(function(result) {zsc = result})
+```
+
 Let's assume that `Client` has been imported and that all contracts have been deployed, and that, in four separate `node` consoles, `web3` is initialized with an appropriate provider (make sure to use a WebSocket or IPC provider). In each window, type:
 ```javascript
 > var home
@@ -54,9 +68,9 @@ Let's assume that `Client` has been imported and that all contracts have been de
 ```
 to assign the address of an unlocked account to the variable `home`.
 
-In the first window, Alice's let's say, execute
+In the first window, Alice's let's say, execute:
 ```javascript
-> const alice = new Client(web3, deployed, home)
+> const alice = new Client(web3,zsc.contract,home);
 > alice.register()
 Promise { <pending> }
 Registration submitted (txHash = "0xe4295b5116eb1fe6c40a40352f4bf609041f93e763b5b27bd28c866f3f4ce2b2").
@@ -64,12 +78,18 @@ Registration successful.
 ```
 and in Bob's,
 ```javascript
-> const bob = new Client(web3, deployed, home)
+> const bob = new Client(web3, zsc.contract, home)
 > bob.register()
 ```
-Here, `deployed` refers to an already-deployed ZSC `Web3.eth.Contract` object. Do something similar for the other two.
+Before running the commands alice.deposit() / alice.withdraw() it is necessary to mint funds, otherwise it will trigger an ERC20 revert error (insufficient funds). An example is shown below:
+```javascript
+> cash.mint(home, 150, {from: home}).then(console.log)
+> cash.approve(zsc.address, 150, {from: home}).then(console.log)
+> cash.balanceOf.call(home).then(function(result) {balance = result});
+> assert.equal(balance, 150, "Minting failed");
+```
 
-The two functions `deposit` and `withdraw` take a single numerical parameter. For example, in Alice's window, type
+The two functions `deposit` and `withdraw` take a single numerical parameter. For example, in Alice's window, type:
 ```javascript
 > alice.deposit(100)
 Initiating deposit.
@@ -99,7 +119,7 @@ to retrieve his public key and add Bob as a "friend" of Alice, i.e.
 > alice.friends.add("Bob", ['0x17f5f0daab7218a462dea5f04d47c9db95497833381f502560486d4019aec495', '0x0957b7a0ec24a779f991ea645366b27fe3e93e996f3e7936bdcfb7b18d41a945'])
 'Friend added.'
 ```
-You can now do
+You can now do:
 ```javascript
 > alice.transfer("Bob", 20)
 Initiating transfer.
