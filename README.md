@@ -81,7 +81,7 @@ CashToken.setProvider(provider);
 CashToken.deployed();
 CashToken.at(CashToken.address).then(function(result) {cash = result});
 ```
-Let's assume that `Client` has been imported and that all contracts have been deployed, and that, in four separate `node` consoles, `web3` is initialized with an appropriate provider (make sure to use a WebSocket or IPC provider). In each window, type:
+Let's assume that `Client` has been imported and that all contracts have been deployed (using truffle migrate), and that, in four separate `node` consoles, `web3` is initialized with an appropriate provider (make sure to use a WebSocket or IPC provider). In each window, type:
 ```javascript
 > var home
 > web3.eth.getAccounts().then((accounts) => { home = accounts[accounts.length - 1]; })
