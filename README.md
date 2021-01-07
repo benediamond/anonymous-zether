@@ -126,7 +126,7 @@ In fact, you can see for yourself the perspective of Eve—an eavesdropper, let'
 
 ```javascript
 > let inputs
-> deployed._jsonInterface.forEach((element) => { if (element['name'] == "transfer") inputs = element['inputs']; })
+> zsc.contract._jsonInterface.forEach((element) => { if (element['name'] == "transfer") inputs = element['inputs']; })
 > let parsed
 > web3.eth.getTransaction('0x9b3f51f3511c6797789862ce745a81d5bdfb00304831a8f25cc8554ea7597860').then((transaction) => { parsed = web3.eth.abi.decodeParameters(inputs, "0x" + transaction.input.slice(10)); })
 ```
